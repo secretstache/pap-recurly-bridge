@@ -24,7 +24,21 @@ define( 'PAP_RECURLY_URL', plugin_dir_url( __FILE__ ) );
 define( 'PAP_RECURLY_DIR', plugin_dir_path( __FILE__ ) );
 
 define( 'PAP_RECURLY_DIR_INC', trailingslashit ( PAP_RECURLY_DIR . 'inc' ) );
-define( 'PAP_RECURLY_DIR_ADMIN', trailingslashit ( PAP_RECURLY_DIR . 'admin' ) );
+define( 'PAP_RECURLY_DIR_OPTIONS', trailingslashit ( PAP_RECURLY_DIR . 'options' ) );
 
 // Grab other files
 require_once ( PAP_RECURLY_DIR_INC . 'PapApi.class.php' );
+require_once ( PAP_RECURLY_DIR_OPTIONS . 'init.php' );
+
+/* Add admin submenu page */
+function prb_options_page() {
+    add_submenu_page(
+        'options-general.php',
+        'PAP Recurly Options',
+        'PAP Recurly Options',
+        'manage_options',
+        'pap-recurly-bridge',
+        'prb_options_page_html'
+    );
+}
+add_action('admin_menu', 'prb_options_page');
