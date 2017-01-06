@@ -24,13 +24,23 @@ define( 'PAP_RECURLY_URL', plugin_dir_url( __FILE__ ) );
 define( 'PAP_RECURLY_DIR', plugin_dir_path( __FILE__ ) );
 
 define( 'PAP_RECURLY_DIR_INC', trailingslashit ( PAP_RECURLY_DIR . 'inc' ) );
+define( 'PAP_RECURLY_DIR_LIB', trailingslashit ( PAP_RECURLY_DIR . 'lib' ) );
 define( 'PAP_RECURLY_DIR_OPTIONS', trailingslashit ( PAP_RECURLY_DIR . 'options' ) );
 
 // Grab other files
-require_once ( PAP_RECURLY_DIR_INC . 'PapApi.class.php' );
-require_once ( PAP_RECURLY_DIR_OPTIONS . 'init.php' );
+require_once( PAP_RECURLY_DIR_INC . 'PapApi.class.php' );
+require_once( PAP_RECURLY_DIR_INC . 'hooks.php' );
+require_once( PAP_RECURLY_DIR_OPTIONS . 'init.php' );
 
-/* Add admin submenu page */
+// External libraries
+require_once( PAP_RECURLY_DIR_LIB . 'recurly.php');
+
+// Get prb option value
+function prb_get_option( $option_name ) {
+    return get_option('prb_options')[$option_name];
+}
+
+// Add plugin options submenu page
 function prb_options_page() {
     add_submenu_page(
         'options-general.php',

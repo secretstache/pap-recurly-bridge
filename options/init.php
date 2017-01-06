@@ -13,31 +13,41 @@ function prb_settings_init() {
         'prb'
     );
 
-        // Add Setting
-        add_settings_field(
-            'prb_setting_recurly_api_key_private',
-            __('Recurly Private API Key', 'prb'),
-            'prb_setting_recurly_api_key_private_cb',
-            'prb',
-            'prb_section_recurly',
-            [
-                'label_for'         => 'prb_setting_recurly_api_key_private',
-                'class'             => 'prb_row',
-                'prb_custom_data'   => 'custom',
-            ]
-        );
-
-        // Add Setting
+        // Recurly Public API Key
         add_settings_field(
             'prb_setting_recurly_api_key_public',
             __('Recurly Public API Key', 'prb'),
-            'prb_setting_recurly_api_key_public_cb',
+            'prb_setting_field_text',
             'prb',
             'prb_section_recurly',
             [
-                'label_for'         => 'prb_setting_recurly_api_key_public',
-                'class'             => 'prb_row',
-                'prb_custom_data'   => 'custom',
+                'label_for'         => 'prb_setting_recurly_api_key_public'
+            ]
+        );
+
+        // Recurly Private API Key
+        add_settings_field(
+            'prb_setting_recurly_api_key_private',
+            __('Recurly Private API Key', 'prb'),
+            'prb_setting_field_text',
+            'prb',
+            'prb_section_recurly',
+            [
+                'label_for'         => 'prb_setting_recurly_api_key_private'
+            ]
+        );
+
+        // Recurly Subdomain
+        add_settings_field(
+            'prb_setting_recurly_subdomain',
+            __('Recurly Subdomain', 'prb'),
+            'prb_setting_field_text',
+            'prb',
+            'prb_section_recurly',
+            [
+                'label_for'         => 'prb_setting_recurly_subdomain',
+                'placeholder'       => 'your-subdomain',
+                'description'       => 'Example: your-subdomain (Do not include http:// or recurly.com in this field)'
             ]
         );
 
@@ -51,15 +61,29 @@ function prb_settings_init() {
 
         // Add Setting
         add_settings_field(
-            'prb_setting_pap_pages',
-            __('Recurly Public API Key', 'prb'),
-            'prb_setting_pap_pages_cb',
+            'prb_setting_confirmation_page',
+            __('Checkout confirmation page', 'prb'),
+            'prb_setting_field_select',
             'prb',
             'prb_section_pap',
             [
-                'label_for'         => 'prb_setting_pap_pages',
-                'class'             => 'prb_row',
-                'prb_custom_data'   => 'custom',
+                'label_for'         => 'prb_setting_confirmation_page',
+                'description'       => 'The page where you\'d redirect your users after a successfuly Recurly Payment. Post Affiliate Pro tracking code page would be loaded on this page.',
+                'options'           => get_pages()
+            ]
+        );
+
+        // Add Setting
+        add_settings_field(
+            'prb_setting_pap_url',
+            __('Post Affiliate Pro URL', 'prb'),
+            'prb_setting_field_fake_papurl',
+            'prb',
+            'prb_section_pap',
+            [
+                'label_for'         => 'prb_setting_pap_url',
+                'description'       => 'Configure this field from Post Affiliate Pro Options',
+                'general_url'       => admin_url(). '?page=pap-top-level-options-handle'
             ]
         );
 }
@@ -72,25 +96,7 @@ function prb_section_recurly_cb($args) {
     <?php
 }
 
-// Recurly Private API Key Output
-function prb_setting_recurly_api_key_private_cb($args) {
 
-    $options = get_option('prb_options');
-    ?>
-    <input type="text" name="prb_options[<?php echo esc_attr($args['label_for']); ?>]">
-
-    <?php
-}
-
-// Recurly Public API Key Output
-function prb_setting_recurly_api_key_public_cb($args) {
-
-    $options = get_option('prb_options');
-    ?>
-    <input type="text" name="prb_options[<?php echo esc_attr($args['label_for']); ?>]">
-
-    <?php
-}
 
 // Recurly Options Section Output
 function prb_section_pap_cb($args) {
@@ -99,36 +105,57 @@ function prb_section_pap_cb($args) {
     <?php
 }
 
-// Recurly Public API Key Output
-function prb_setting_pap_pages_cb($args) {
+// Field: Text
+function prb_setting_field_text($args) {
 
     $options = get_option('prb_options');
-    $pages_args = array(
-        'sort_order' => 'asc',
-        'sort_column' => 'post_title',
-        'hierarchical' => 1,
-        'exclude' => '',
-        'include' => '',
-        'meta_key' => '',
-        'meta_value' => '',
-        'authors' => '',
-        'child_of' => 0,
-        'parent' => -1,
-        'exclude_tree' => '',
-        'number' => '',
-        'offset' => 0,
-        'post_type' => 'page',
-        'post_status' => 'publish'
-    );
-    $pages = get_pages();
+    ?>
+    <input type="text" class="regular-text" name="prb_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo esc_attr($options[$args['label_for']]);?>">
+    <?php if ( isset($args['description']) ) : ?>
+    <p class="description">
+        <?php echo esc_html($args['description'], 'prb'); ?>
+    </p>
+    <?php endif;?>
+
+    <?php
+}
+
+// Field: Select
+function prb_setting_field_select($args) {
+
+    $options = get_option('prb_options');
+    $pages = $args['options'];
     ?>
 
-    <select multiple size="6">
-        <?php foreach ( $pages as $page ) {
-            echo "<option value=$page->ID>$page->post_title</option>";
+    <select id="<?php echo esc_attr($args['label_for']); ?>"
+        name="prb_options[<?php echo esc_attr($args['label_for']); ?>]"
+    >
+        <option disabled selected value>Choose...</option>
+        <?php foreach ( $pages as $page ) {?>
+            <option value="<?php echo $page->ID;?>" <?php isset($options[$args['label_for']]) ? (selected($options[$args['label_for']], $page->ID, true)) : (''); ?>>
+                <?php echo esc_html($page->post_title, 'prb'); ?>
+            </option>
+            <?php
         }?>
-
     </select>
+    <?php if ( $args['description'] ) : ?>
+    <p class="description">
+        <?php echo esc_html($args['description'], 'prb'); ?>
+    </p>
+    <?php endif;?>
+    <?php
+}
+
+function prb_setting_field_fake_papurl($args) {
+
+    $pap_url = get_option('pap-url');
+    ?>
+    <input type="text" class="regular-text" value="<?php echo esc_attr($pap_url);?>" disabled>
+    <?php if ( isset($args['description']) ) : ?>
+    <p class="description">
+        <?php echo esc_html($args['description'], 'prb'); ?> -> <a href="<?php echo esc_url($args['general_url']);?>">General</a>
+    </p>
+    <?php endif;?>
     <?php
 }
 
