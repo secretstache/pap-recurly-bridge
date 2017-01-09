@@ -6,7 +6,7 @@ Description: This plugin integrated Post Affiliate Pro and Recurly.
 Version: 0.1.0
 Author: Secret Stache Media
 Author URI: https://www.secretstache.com/
-Text Domain: pap-recurly-bridge
+Text Domain: prb
 Domain Path: /languages
 */
 
@@ -19,21 +19,21 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since   PAP Recurly Bridge  0.1.0
  */
-define( 'PAP_RECURLY_VERSION', '0.1.0' );
-define( 'PAP_RECURLY_URL', plugin_dir_url( __FILE__ ) );
-define( 'PAP_RECURLY_DIR', plugin_dir_path( __FILE__ ) );
+define( 'PRB_RECURLY_VERSION', '0.1.0' );
+define( 'PRB_RECURLY_URL', plugin_dir_url( __FILE__ ) );
+define( 'PRB_RECURLY_DIR', plugin_dir_path( __FILE__ ) );
 
-define( 'PAP_RECURLY_DIR_INC', trailingslashit ( PAP_RECURLY_DIR . 'inc' ) );
-define( 'PAP_RECURLY_DIR_LIB', trailingslashit ( PAP_RECURLY_DIR . 'lib' ) );
-define( 'PAP_RECURLY_DIR_OPTIONS', trailingslashit ( PAP_RECURLY_DIR . 'options' ) );
+define( 'PRB_RECURLY_DIR_INC', trailingslashit ( PRB_RECURLY_DIR . 'inc' ) );
+define( 'PRB_RECURLY_DIR_LIB', trailingslashit ( PRB_RECURLY_DIR . 'lib' ) );
+define( 'PRB_RECURLY_DIR_OPTIONS', trailingslashit ( PRB_RECURLY_DIR . 'options' ) );
 
 // Grab other files
-require_once( PAP_RECURLY_DIR_INC . 'PapApi.class.php' );
-require_once( PAP_RECURLY_DIR_INC . 'hooks.php' );
-require_once( PAP_RECURLY_DIR_OPTIONS . 'init.php' );
+require_once( PRB_RECURLY_DIR_INC . 'hooks.php' );
+require_once( PRB_RECURLY_DIR_OPTIONS . 'init.php' );
 
 // External libraries
-require_once( PAP_RECURLY_DIR_LIB . 'recurly.php');
+require_once( PRB_RECURLY_DIR_LIB . 'recurly.php');
+require_once( PRB_RECURLY_DIR_LIB . 'PapApi.class.php' );
 
 // Get prb option value
 function prb_get_option( $option_name ) {
