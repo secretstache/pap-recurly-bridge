@@ -173,8 +173,6 @@ function prb_options_page_html() {
         add_settings_error('prb_messages', 'prb_message', __('Settings Saved', 'prb'), 'updated');
     }
 
-    // show error/update messages
-    settings_errors('prb_messages');
     ?>
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
