@@ -5,104 +5,82 @@ function prb_settings_init() {
     // Register Setting
     register_setting('prb', 'prb_options');
 
-    // Recurly Options Section
+    // Section -> Recurly Options
     add_settings_section(
         'prb_section_recurly',
         __('Recurly Options', 'prb'),
-        'prb_section_recurly_cb',
+        'prb_section_empty_cb',
         'prb'
     );
 
-        // Recurly Public API Key
-        add_settings_field(
-            'prb_setting_recurly_api_key_public',
-            __('Recurly Public API Key', 'prb'),
-            'prb_setting_field_text',
-            'prb',
-            'prb_section_recurly',
-            [
-                'label_for'         => 'prb_setting_recurly_api_key_public'
-            ]
-        );
-
-        // Recurly Private API Key
-        add_settings_field(
-            'prb_setting_recurly_api_key_private',
-            __('Recurly Private API Key', 'prb'),
-            'prb_setting_field_text',
-            'prb',
-            'prb_section_recurly',
-            [
-                'label_for'         => 'prb_setting_recurly_api_key_private'
-            ]
-        );
-
-        // Recurly Subdomain
-        add_settings_field(
-            'prb_setting_recurly_subdomain',
-            __('Recurly Subdomain', 'prb'),
-            'prb_setting_field_text',
-            'prb',
-            'prb_section_recurly',
-            [
-                'label_for'         => 'prb_setting_recurly_subdomain',
-                'placeholder'       => 'your-subdomain',
-                'description'       => 'Example: your-subdomain (Do not include http:// or recurly.com in this field)'
-            ]
-        );
-
-    // Recurly Options Section
+    // Section -> Post Affiliate Pro Options
     add_settings_section(
         'prb_section_pap',
-        __('Post Affiliate Pro Options.', 'prb'),
-        'prb_section_pap_cb',
+        __('Post Affiliate Pro Options', 'prb'),
+        'prb_section_empty_cb',
         'prb'
     );
 
-        // Add Setting
-        add_settings_field(
-            'prb_setting_confirmation_page',
-            __('Checkout confirmation page', 'prb'),
-            'prb_setting_field_select',
-            'prb',
-            'prb_section_pap',
-            [
-                'label_for'         => 'prb_setting_confirmation_page',
-                'description'       => 'The page where you\'d redirect your users after a successfuly Recurly Payment. Post Affiliate Pro tracking code page would be loaded on this page.',
-                'options'           => get_pages()
-            ]
-        );
 
-        // Add Setting
-        add_settings_field(
-            'prb_setting_pap_url',
-            __('Post Affiliate Pro URL', 'prb'),
-            'prb_setting_field_fake_papurl',
-            'prb',
-            'prb_section_pap',
-            [
-                'label_for'         => 'prb_setting_pap_url',
-                'description'       => 'Configure this field from Post Affiliate Pro Options',
-                'general_url'       => admin_url(). '?page=pap-top-level-options-handle'
-            ]
-        );
+    // Field -> Recurly Private API Key
+    add_settings_field(
+        'prb_setting_recurly_api_key_private',
+        __('Recurly Private API Key', 'prb'),
+        'prb_setting_field_text',
+        'prb',
+        'prb_section_recurly',
+        [
+            'label_for'         => 'prb_setting_recurly_api_key_private'
+        ]
+    );
+
+    // Field -> Recurly Subdomain
+    add_settings_field(
+        'prb_setting_recurly_subdomain',
+        __('Recurly Subdomain', 'prb'),
+        'prb_setting_field_text',
+        'prb',
+        'prb_section_recurly',
+        [
+            'label_for'         => 'prb_setting_recurly_subdomain',
+            'placeholder'       => 'your-subdomain',
+            'description'       => 'Example: your-subdomain (Do not include http:// or recurly.com in this field)'
+        ]
+    );
+
+    // Field -> Checkout confirmation page
+    add_settings_field(
+        'prb_setting_confirmation_page',
+        __('Checkout confirmation page', 'prb'),
+        'prb_setting_field_select',
+        'prb',
+        'prb_section_pap',
+        [
+            'label_for'         => 'prb_setting_confirmation_page',
+            'description'       => 'The page where you\'d redirect your users after a successfuly Recurly Payment. Post Affiliate Pro tracking code page would be loaded on this page.',
+            'options'           => get_pages()
+        ]
+    );
+
+    // Field -> Post Affiliate Pro URL
+    add_settings_field(
+        'prb_setting_pap_url',
+        __('Post Affiliate Pro URL', 'prb'),
+        'prb_setting_field_fake_papurl',
+        'prb',
+        'prb_section_pap',
+        [
+            'label_for'         => 'prb_setting_pap_url',
+            'description'       => 'Configure this field from Post Affiliate Pro Options',
+            'general_url'       => admin_url(). '?page=pap-top-level-options-handle'
+        ]
+    );
 }
 add_action('admin_init', 'prb_settings_init');
 
-// Recurly Options Section Output
-function prb_section_recurly_cb($args) {
-    ?>
-    <p id="<?php echo esc_attr($args['id']); ?>"><?php echo esc_html__('', 'prb'); ?></p>
-    <?php
-}
+// Empty section callback
+function prb_section_empty_cb($args) {
 
-
-
-// Recurly Options Section Output
-function prb_section_pap_cb($args) {
-    ?>
-    <p id="<?php echo esc_attr($args['id']); ?>"><?php echo esc_html__('', 'prb'); ?></p>
-    <?php
 }
 
 // Field: Text
