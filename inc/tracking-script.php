@@ -65,3 +65,20 @@ function prb_get_script() {
     </script>
     <?php
 }
+
+// Hook tracking code
+function prb_hook_tracking_code() {
+    if ( prb_maybe_load_script() ) {
+
+        // Load script if no errors
+        try {
+            prb_get_script();
+        } catch (Exception $e) {
+            if ( current_user_can('administrator') ) {
+                echo 'Caught exception: ' . $e->getMessage() . "\n";
+            }
+        }
+
+    }
+}
+add_action('wp_head', 'prb_hook_tracking_code');
