@@ -18,12 +18,11 @@ function prb_hook_tracking_code() {
     $confirmation_page = prb_get_option('prb_setting_confirmation_page');
     $private_key = prb_get_option('prb_setting_recurly_api_key_private');
     $recurly_subdomain = prb_get_option('prb_setting_recurly_subdomain');
-    echo $recurly_subdomain;
     // Get url stored in Post Affiliate Pro options
     $pap_url = get_option('pap-url');
 
     // If current page is the confiration page
-    if ( $post_id == $confirmation_page ) {
+    if ( in_array($post_id, $confirmation_page) ) {
         if ( !empty($_GET['account_code']) ) {
 
             Recurly_Client::$apiKey = $private_key; // set your API key here

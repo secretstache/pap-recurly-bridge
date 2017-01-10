@@ -127,12 +127,12 @@ function prb_setting_field_select($args) {
     $pages = $args['options'];
     ?>
 
-    <select id="<?php echo esc_attr($args['label_for']); ?>"
-        name="prb_options[<?php echo esc_attr($args['label_for']); ?>]"
-    >
-        <option disabled selected value>Choose...</option>
-        <?php foreach ( $pages as $page ) {?>
-            <option value="<?php echo $page->ID;?>" <?php isset($options[$args['label_for']]) ? (selected($options[$args['label_for']], $page->ID, true)) : (''); ?>>
+    <select id="<?php echo esc_attr($args['label_for']); ?>" name="prb_options[<?php echo esc_attr($args['label_for']); ?>][]" multiple>
+        <?php foreach ( $pages as $page ) { ?>
+            <option
+                value="<?php echo $page->ID;?>"
+                <?php echo ( in_array( $page->ID, $options[$args['label_for']]) ) ? 'selected' : '';?>
+            >
                 <?php echo esc_html($page->post_title, 'prb'); ?>
             </option>
             <?php
