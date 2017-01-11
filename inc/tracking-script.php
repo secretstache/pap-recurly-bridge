@@ -53,7 +53,7 @@ function prb_get_script() {
     }
     ?>
 
-    <script id="pap_x2s6df8d" src="<?php echo esc_url($pap_url);?>/scripts/salejs.php" type="text/javascript">
+    <script id="pap_x2s6df8d" src="<?php echo esc_url(untrailingslashit($pap_url));?>/scripts/salejs.php" type="text/javascript">
     </script>
     <script type="text/javascript">
     var sale = PostAffTracker.createSale();
