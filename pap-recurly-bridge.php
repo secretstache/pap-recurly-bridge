@@ -45,12 +45,12 @@ function prb_get_option( $option_name ) {
 // Add plugin options submenu page
 function prb_options_page() {
     add_submenu_page(
-        'options-general.php',
-        'PAP Recurly Options',
-        'PAP Recurly Options',
+        'pap-top-level-options-handle',
+        'Recurly Bridge to Post Affiliate Pro',
+        'Recurly Integration',
         'manage_options',
         'pap-recurly-bridge',
         'prb_options_page_html'
     );
 }
-add_action('admin_menu', 'prb_options_page');
+add_action('admin_menu', 'prb_options_page', 99);
