@@ -109,7 +109,7 @@ function prb_setting_field_select($args) {
         <?php foreach ( $pages as $page ) { ?>
             <option
                 value="<?php echo $page->ID;?>"
-                <?php echo ( in_array( $page->ID, $options[$args['label_for']]) ) ? 'selected' : '';?>
+                <?php echo ( is_array($options[$args['label_for']]) && in_array( $page->ID, $options[$args['label_for']]) ) ? 'selected' : '';?>
             >
                 <?php echo esc_html($page->post_title, 'prb'); ?>
             </option>

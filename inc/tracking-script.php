@@ -12,9 +12,10 @@ function prb_maybe_load_script() {
     $post_id = $post->ID;
 
     $confirmation_page = prb_get_option('prb_setting_confirmation_page');
+    $subdomain = prb_get_option('prb_setting_recurly_subdomain');
 
     // Check if current page selected
-    if ( in_array($post_id, $confirmation_page) ) {
+    if ( in_array($post_id, $confirmation_page) && $subdomain != '' ) {
 
         // Check if account_code & plan provided
         if ( isset($_GET['account_code']) && !empty($_GET['account_code']) && isset($_GET['plan']) && !empty($_GET['plan']) ) {
