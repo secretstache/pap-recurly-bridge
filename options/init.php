@@ -5,18 +5,18 @@ function prb_settings_init() {
     // Register Setting
     register_setting('prb', 'prb_options');
 
-    // Section -> Recurly Options
+    // Section -> Recurly Settings
     add_settings_section(
         'prb_section_recurly',
-        __('Recurly Options', 'prb'),
+        __('Recurly Settings', 'prb'),
         'prb_section_empty_cb',
         'prb'
     );
 
-    // Section -> Post Affiliate Pro Options
+    // Section -> Post Affiliate Pro Settings
     add_settings_section(
         'prb_section_pap',
-        __('Post Affiliate Pro Options', 'prb'),
+        __('Post Affiliate Pro Settings', 'prb'),
         'prb_section_empty_cb',
         'prb'
     );
@@ -30,7 +30,8 @@ function prb_settings_init() {
         'prb',
         'prb_section_recurly',
         [
-            'label_for'         => 'prb_setting_recurly_api_key_private'
+            'label_for'         => 'prb_setting_recurly_api_key_private',
+            'description'       => 'You can find this key in your Recurly dashboard: Developers > API Credentials'
         ]
     );
 
@@ -43,21 +44,20 @@ function prb_settings_init() {
         'prb_section_recurly',
         [
             'label_for'         => 'prb_setting_recurly_subdomain',
-            'placeholder'       => 'your-subdomain',
-            'description'       => 'Example: your-subdomain (Do not include http:// or recurly.com in this field)'
+            'description'       => 'For https://my-company.recurly.com your subdomain is my-company'
         ]
     );
 
     // Field -> Checkout confirmation page
     add_settings_field(
         'prb_setting_confirmation_page',
-        __('Checkout confirmation page', 'prb'),
+        __('Checkout Confirmation Page(s)', 'prb'),
         'prb_setting_field_select',
         'prb',
         'prb_section_pap',
         [
             'label_for'         => 'prb_setting_confirmation_page',
-            'description'       => 'The page where you\'d redirect your users after a successfuly Recurly Payment. Post Affiliate Pro tracking code page would be loaded on this page.',
+            'description'       => 'The page(s) where you will redirect users after a successful Recurly payment',
             'options'           => get_pages()
         ]
     );
@@ -65,13 +65,13 @@ function prb_settings_init() {
     // Field -> Post Affiliate Pro URL
     add_settings_field(
         'prb_setting_pap_url',
-        __('Post Affiliate Pro URL', 'prb'),
+        __('Post Affiliate Pro Account URL', 'prb'),
         'prb_setting_field_fake_papurl',
         'prb',
         'prb_section_pap',
         [
             'label_for'         => 'prb_setting_pap_url',
-            'description'       => 'Configure this field from Post Affiliate Pro Options',
+            'description'       => 'This field is configured from the Post Affiliate Pro options.',
             'general_url'       => admin_url(). '?page=pap-top-level-options-handle'
         ]
     );
@@ -131,7 +131,7 @@ function prb_setting_field_fake_papurl($args) {
     <input type="text" class="regular-text" value="<?php echo esc_attr($pap_url);?>" disabled>
     <?php if ( isset($args['description']) ) : ?>
     <p class="description">
-        <?php echo esc_html($args['description'], 'prb'); ?> -> <a href="<?php echo esc_url($args['general_url']);?>">General</a>
+        <?php echo esc_html($args['description'], 'prb'); ?> <a href="<?php echo esc_url($args['general_url']);?>" target="_blank">Click here to update</a>
     </p>
     <?php endif;?>
     <?php
