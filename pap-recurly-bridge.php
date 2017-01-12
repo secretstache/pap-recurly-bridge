@@ -2,7 +2,7 @@
 /*
 Plugin Name: PAP Recurly Bridge
 Plugin URI: https://www.secretstache.com/
-Description: This plugin integrated Post Affiliate Pro and Recurly.
+Description: This plugin integrates Post Affiliate Pro and Recurly.
 Version: 0.1.0
 Author: Secret Stache Media
 Author URI: https://www.secretstache.com/
