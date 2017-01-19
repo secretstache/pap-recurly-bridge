@@ -9,7 +9,7 @@ function prb_check_if_pap_active() {
   if ( is_admin() && current_user_can( 'activate_plugins' ) &&  !is_plugin_active( 'postaffiliatepro/postaffiliatepro.php' ) ) {
     add_action( 'admin_notices', 'prb_check_if_pap_active_notice' );
 
-    deactivate_plugins( plugin_basename( __FILE__ ) );
+    deactivate_plugins( PRB_RECURLY_BASENAME );
 
     if ( isset( $_GET['activate'] ) ) {
       unset( $_GET['activate'] );

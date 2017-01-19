@@ -22,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'PRB_RECURLY_VERSION', '0.1.0' );
 define( 'PRB_RECURLY_URL', plugin_dir_url( __FILE__ ) );
 define( 'PRB_RECURLY_DIR', plugin_dir_path( __FILE__ ) );
+define( 'PRB_RECURLY_BASENAME', plugin_basename( __FILE__ ) );
 
 define( 'PRB_RECURLY_DIR_INC', trailingslashit ( PRB_RECURLY_DIR . 'inc' ) );
 define( 'PRB_RECURLY_DIR_LIB', trailingslashit ( PRB_RECURLY_DIR . 'lib' ) );
@@ -34,7 +35,8 @@ require_once( PRB_RECURLY_DIR_INC . 'tracking-script.php' );
 require_once( PRB_RECURLY_DIR_OPTIONS . 'init.php' );
 
 // External libraries
-require_once( PRB_RECURLY_DIR_LIB . 'recurly.php');
+if ( ! class_exists('Recurly_Base') )
+    require_once( PRB_RECURLY_DIR_LIB . 'recurly.php');
 require_once( PRB_RECURLY_DIR_LIB . 'PapApi.class.php' );
 
 // Get prb option value
