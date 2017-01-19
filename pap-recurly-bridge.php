@@ -38,7 +38,13 @@ require_once( PRB_RECURLY_DIR_OPTIONS . 'init.php' );
 if ( ! class_exists('Recurly_Base') )
     require_once( PRB_RECURLY_DIR_LIB . 'recurly.php');
 require_once( PRB_RECURLY_DIR_LIB . 'PapApi.class.php' );
-
+require PRB_RECURLY_DIR_LIB . 'plugin_update_check.php';
+$MyUpdateChecker = new PluginUpdateChecker_2_0 (
+    'https://kernl.us/api/v1/updates/58811a47198a095fb1f3936f/',
+    __FILE__,
+    'pap-recurly-bridge',
+    1
+);
 // Get prb option value
 function prb_get_option( $option_name ) {
     return get_option('prb_options')[$option_name];
