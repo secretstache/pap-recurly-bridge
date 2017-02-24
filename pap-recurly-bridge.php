@@ -29,9 +29,9 @@ define( 'PRB_RECURLY_DIR_LIB', trailingslashit ( PRB_RECURLY_DIR . 'lib' ) );
 define( 'PRB_RECURLY_DIR_OPTIONS', trailingslashit ( PRB_RECURLY_DIR . 'options' ) );
 
 // Grab other files
-
 require_once( PRB_RECURLY_DIR_INC . 'dependency-check.php' );
 require_once( PRB_RECURLY_DIR_INC . 'tracking-script.php' );
+require_once( PRB_RECURLY_DIR_OPTIONS . 'validation.php' );
 require_once( PRB_RECURLY_DIR_OPTIONS . 'init.php' );
 
 // External libraries

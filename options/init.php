@@ -31,7 +31,8 @@ function prb_settings_init() {
         'prb_section_recurly',
         [
             'label_for'         => 'prb_setting_recurly_api_key_private',
-            'description'       => 'You can find this key in your Recurly dashboard: Developers > API Credentials'
+            'description'       => 'You can find this key in your Recurly dashboard: Developers > API Credentials',
+            'is_valid_info'     => prb_is_valid_recurly_config()
         ]
     );
 
@@ -44,7 +45,8 @@ function prb_settings_init() {
         'prb_section_recurly',
         [
             'label_for'         => 'prb_setting_recurly_subdomain',
-            'description'       => 'For https://my-company.recurly.com your subdomain is my-company'
+            'description'       => 'For https://my-company.recurly.com your subdomain is my-company',
+            'is_valid_info'     => prb_is_valid_recurly_config()
         ]
     );
 
@@ -89,6 +91,7 @@ function prb_setting_field_text($args) {
     $options = get_option('prb_options');
     ?>
     <input type="text" class="regular-text" name="prb_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo esc_attr($options[$args['label_for']]);?>">
+    <?php echo (isset($args['is_valid_info']) && $args['is_valid_info']) ? '<span class="dashicons dashicons-yes"></span>' : '<span class="dashicons dashicons-no"></span>';?>
     <?php if ( isset($args['description']) ) : ?>
     <p class="description">
         <?php echo esc_html($args['description'], 'prb'); ?>
@@ -100,7 +103,6 @@ function prb_setting_field_text($args) {
 
 // Field: Select
 function prb_setting_field_select($args) {
-
     $options = get_option('prb_options');
     $pages = $args['options'];
     ?>
@@ -149,7 +151,16 @@ function prb_options_page_html() {
     if (isset($_GET['settings-updated'])) {
         // add settings saved message with the class of "updated"
         add_settings_error('prb_messages', 'prb_message', __('Settings Saved', 'prb'), 'updated');
+
+        // Get saved settings
+        $private_key = prb_get_option('prb_setting_recurly_api_key_private');
+        $sub_domain = prb_get_option('prb_setting_recurly_subdomain');
+
+        // Revalidate settings
+        prb_validate_info($private_key, $sub_domain, false);
     }
+
+    settings_errors( 'prb_messages' );
 
     ?>
     <div class="wrap">
