@@ -11,14 +11,16 @@ function prb_maybe_load_script() {
     global $post;
     $post_id = $post->ID;
 
-    $confirmation_page = prb_get_option('prb_setting_confirmation_page');
-    $subdomain = prb_get_option('prb_setting_recurly_subdomain');
+    $confirmation_page  = prb_get_option('prb_setting_confirmation_page');
+    $subdomain          = prb_get_option('prb_setting_recurly_subdomain');
+    $account_code       = prb_get_option('prb_setting_account_code_query_var', 'account_code');
+    $plan_code          = prb_get_option('prb_setting_plan_code_query_var', 'plan');
 
     // Check if current page selected
     if ( in_array($post_id, $confirmation_page) && $subdomain != '' ) {
 
         // Check if account_code & plan provided
-        if ( isset($_GET['account_code']) && !empty($_GET['account_code']) && isset($_GET['plan']) && !empty($_GET['plan']) ) {
+        if ( isset($_GET[$account_code]) && !empty($_GET[$account_code]) && isset($_GET[$plan_code]) && !empty($_GET[$plan_code]) ) {
             return true;
         }
 
@@ -31,14 +33,16 @@ function prb_maybe_load_script() {
  * http://addons.qualityunit.com/PostAffiliatePro/integration-methods/_irecurly/
 **/
 function prb_get_script() {
-
+    
     // Get url stored in Post Affiliate Pro options
     $pap_url = get_option('pap-url');
 
-    Recurly_Client::$apiKey = prb_get_option('prb_setting_recurly_api_key_private');
-    Recurly_Client::$subdomain = prb_get_option('prb_setting_recurly_subdomain');
+    Recurly_Client::$apiKey     = prb_get_option('prb_setting_recurly_api_key_private');
+    Recurly_Client::$subdomain  = prb_get_option('prb_setting_recurly_subdomain');
+    $account_code               = prb_get_option('prb_setting_account_code_query_var', 'account_code');
+    $plan_code                  = prb_get_option('prb_setting_plan_code_query_var', 'plan');
 
-    $invoices = Recurly_InvoiceList::getForAccount($_GET['account_code']);
+    $invoices = Recurly_InvoiceList::getForAccount($_GET[$account_code]);
 
     foreach ($invoices as $invoice) {
         $inv = explode(", ","{$invoice}");
@@ -58,8 +62,8 @@ function prb_get_script() {
     <script type="text/javascript">
     var sale = PostAffTracker.createSale();
     sale.setTotalCost('<?php echo $total;?>');
-    sale.setOrderID('<?php echo $_GET['account_code'];?>');
-    sale.setProductID('<?php echo $_GET['plan'];?>');
+    sale.setOrderID('<?php echo $_GET[$account_code];?>');
+    sale.setProductID('<?php echo $_GET[$plan_code];?>');
     sale.setData1('<?php echo $orderID;?>');
 
     PostAffTracker.register();

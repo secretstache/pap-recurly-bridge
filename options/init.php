@@ -77,6 +77,34 @@ function prb_settings_init() {
             'general_url'       => admin_url(). '?page=pap-top-level-options-handle'
         ]
     );
+
+    // Field -> Recurly Subdomain
+    add_settings_field(
+        'prb_setting_account_code_query_var',
+        __('URL query variable: Account Code', 'prb'),
+        'prb_setting_field_text',
+        'prb',
+        'prb_section_pap',
+        [
+            'label_for'         => 'prb_setting_account_code_query_var',
+            'description'       => 'Query variable key for account code in Confirmation page redirect URL.',
+            'default_value'     => 'account_code'
+        ]
+    );
+
+        // Field -> Recurly Subdomain
+    add_settings_field(
+        'prb_setting_plan_code_query_var',
+        __('URL query variable: Plan Code', 'prb'),
+        'prb_setting_field_text',
+        'prb',
+        'prb_section_pap',
+        [
+            'label_for'         => 'prb_setting_plan_code_query_var',
+            'description'       => 'Query variable key for plan code in Confirmation page redirect URL.',
+            'default_value'     => 'plan'
+        ]
+    );
 }
 add_action('admin_init', 'prb_settings_init');
 
@@ -89,9 +117,12 @@ function prb_section_empty_cb($args) {
 function prb_setting_field_text($args) {
 
     $options = get_option('prb_options');
+    $value   = ( $options[$args['label_for']] ) ? $options[$args['label_for']] : $args['default_value'];
     ?>
-    <input type="text" class="regular-text" name="prb_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo esc_attr($options[$args['label_for']]);?>">
-    <?php echo (isset($args['is_valid_info']) && $args['is_valid_info']) ? '<span class="dashicons dashicons-yes"></span>' : '<span class="dashicons dashicons-no"></span>';?>
+    <input type="text" class="regular-text" name="prb_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo esc_attr($value);?>">
+    <?php if (isset($args['is_valid_info'])) { 
+        echo ($args['is_valid_info']) ? '<span class="dashicons dashicons-yes"></span>' : '<span class="dashicons dashicons-no"></span>';
+    } ?>
     <?php if ( isset($args['description']) ) : ?>
     <p class="description">
         <?php echo esc_html($args['description'], 'prb'); ?>

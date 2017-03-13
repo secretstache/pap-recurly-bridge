@@ -3,7 +3,7 @@
 Plugin Name: PAP Recurly Bridge
 Plugin URI: https://www.secretstache.com/
 Description: This plugin integrates Post Affiliate Pro and Recurly.
-Version: 0.1.1
+Version: 0.1.2
 Author: Secret Stache Media
 Author URI: https://www.secretstache.com/
 Text Domain: prb
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since   PAP Recurly Bridge  0.1.0
  */
-define( 'PRB_RECURLY_VERSION', '0.1.1' );
+define( 'PRB_RECURLY_VERSION', '0.1.2' );
 define( 'PRB_RECURLY_URL', plugin_dir_url( __FILE__ ) );
 define( 'PRB_RECURLY_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PRB_RECURLY_BASENAME', plugin_basename( __FILE__ ) );
@@ -46,8 +46,14 @@ $MyUpdateChecker = new PluginUpdateChecker_2_0 (
     1
 );
 // Get prb option value
-function prb_get_option( $option_name ) {
-    return get_option('prb_options')[$option_name];
+function prb_get_option( $option_name, $default_value = false ) {
+    $current_value = get_option('prb_options')[$option_name];
+
+    // If no current value and has a default value
+    if ( ! $current_value && $default_value ) {
+        return $default_value;
+    }
+    return $current_value;
 }
 
 // Add plugin options submenu page
