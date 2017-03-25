@@ -16,14 +16,16 @@ function prb_maybe_load_script() {
     $account_code       = prb_get_option('prb_setting_account_code_query_var', 'account_code');
     $plan_code          = prb_get_option('prb_setting_plan_code_query_var', 'plan');
 
-    // Check if current page selected
-    if ( in_array($post_id, $confirmation_page) && $subdomain != '' ) {
+    if (isset($confirmation_page) && $confirmation_page != '') {
+        // Check if current page selected
+        if ( in_array($post_id, $confirmation_page) && $subdomain != '' ) {
 
-        // Check if account_code & plan provided
-        if ( isset($_GET[$account_code]) && !empty($_GET[$account_code]) && isset($_GET[$plan_code]) && !empty($_GET[$plan_code]) ) {
-            return true;
+            // Check if account_code & plan provided
+            if ( isset($_GET[$account_code]) && !empty($_GET[$account_code]) && isset($_GET[$plan_code]) && !empty($_GET[$plan_code]) ) {
+                return true;
+            }
+
         }
-
     }
 }
 
